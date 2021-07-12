@@ -1,4 +1,7 @@
 /* PLATOTERM for UNIX */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "protocol.h"
 #include "screen.h"
@@ -15,7 +18,7 @@ int done = FALSE;
 char hostname[64];
 unsigned short port;
 
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char *argv[];
 {

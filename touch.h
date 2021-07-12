@@ -11,5 +11,8 @@
 #define TOUCH_H
 
 #include "protocol.h"
+void touch_init();
+void touch_done();
+
 
 #endif /* TOUCH_H */

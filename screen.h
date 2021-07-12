@@ -12,4 +12,9 @@
 
 #include "protocol.h"
 
+void screen_init();
+void screen_main();
+void screen_done();
+
+
 #endif /* SCREEN_H */

@@ -11,5 +11,7 @@
 #define TERMINAL_H
 
 #include "protocol.h"
+void terminal_init();
+void terminal_initial_position();
 
 #endif
