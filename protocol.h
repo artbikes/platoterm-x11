@@ -51,4 +51,5 @@ extern	padBool		TTY,
 			Reverse;
 extern	DispMode	CurMode;
 
+void Touch();
 #endif

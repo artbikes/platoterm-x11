@@ -13,6 +13,7 @@
 #include "protocol.h"
 void touch_init();
 void touch_done();
+void handle_mouse();
 
 
 #endif /* TOUCH_H */
