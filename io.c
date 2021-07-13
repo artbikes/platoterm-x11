@@ -17,7 +17,7 @@
 #include "io.h"
 #include "protocol.h"
 #include <arpa/inet.h>
-#include <strings.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 

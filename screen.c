@@ -550,6 +550,7 @@ padRGB* theColor;
  * Recursive flood fill
  */
 void _screen_paint(x,y,oldpixel,newpixel)
+int x,y;
 unsigned long oldpixel,newpixel;
 {
 	unsigned long p = XGetPixel(image,x,y);
