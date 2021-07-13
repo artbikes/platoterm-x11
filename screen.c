@@ -13,8 +13,14 @@
 #include <X11/keysym.h>
 #include "splash.h"
 #include "screen.h"
+#include "touch.h"
 #include "protocol.h"
 #include "font.h"
+#include "keyboard.h"
+#include "io.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 unsigned char CharHigh=16;
 unsigned char CharWide=8;
@@ -66,7 +72,7 @@ short a,b;
 /**
  * screen_init() - Set up the screen
  */
-screen_init(hostname, port)
+void screen_init(hostname, port)
 char* hostname;
 unsigned short port;
 {
@@ -96,7 +102,7 @@ unsigned short port;
 /**
  * screen_main() - render/preserve screen
  */
-screen_main()
+void screen_main()
 {
 	if (!XPending(display))
 		return;
@@ -123,8 +129,8 @@ screen_main()
 	}
 }
 
-screen_handle_client_message(display, e)
-Display display;
+void screen_handle_client_message(display, e)
+Display *display;
 XEvent *e;
 {
 	if ((Atom)e->xclient.data.l[0]==wmdeleteMessage)
@@ -136,14 +142,14 @@ XEvent *e;
 /**
  * screen_wait() - Sleep for approx 16.67ms
  */
-screen_wait()
+void screen_wait()
 {
 }
 
 /**
  * screen_beep() - Beep the terminal
  */
-screen_beep()
+void screen_beep()
 {
 	XBell(display,100);
 }
@@ -151,7 +157,7 @@ screen_beep()
 /**
  * screen_clear - Clear the screen
  */
-screen_clear()
+void screen_clear()
 {
 	io_replay_clear();
 	screen_clear_colors();
@@ -168,7 +174,7 @@ screen_clear()
 /**
  * screen_set_pen_mode() - Set pen mode
  */
-screen_set_pen_mode()
+void screen_set_pen_mode()
 {
 	if (CurMode == ModeErase || CurMode == ModeInverse)
 	{
@@ -185,7 +191,7 @@ screen_set_pen_mode()
 /**
  * screen_block_draw(Coord1, Coord2) - Perform a block fill from Coord1 to Coord2
  */
-screen_block_draw(Coord1, Coord2)
+void screen_block_draw(Coord1, Coord2)
 padPt *Coord1;
 padPt *Coord2;
 {
@@ -202,7 +208,7 @@ padPt *Coord2;
 /**
  * screen_dot_draw(Coord) - Plot a mode 0 pixel
  */
-screen_dot_draw(Coord)
+void screen_dot_draw(Coord)
 padPt* Coord;
 {
 	screen_set_pen_mode();
@@ -212,7 +218,7 @@ padPt* Coord;
 /**
  * screen_line_draw(Coord1, Coord2) - Draw a mode 1 line
  */
-screen_line_draw(Coord1, Coord2)
+void screen_line_draw(Coord1, Coord2)
 padPt* Coord1;
 padPt* Coord2;
 {
@@ -223,7 +229,7 @@ padPt* Coord2;
 /**
  * screen_char_draw(Coord, ch, count) - Output buffer from ch* of length count as PLATO characters
  */
-screen_char_draw(Coord, ch, count)
+void screen_char_draw(Coord, ch, count)
 padPt* Coord;
 unsigned char* ch;
 unsigned char count;
@@ -418,7 +424,7 @@ unsigned char count;
 /**
  * screen_tty_char - Called to plot chars when in tty mode
  */
-screen_tty_char(theChar)
+void screen_tty_char(theChar)
 padByte theChar;
 {
   if ((theChar >= 0x20) && (theChar < 0x7F)) {
@@ -452,7 +458,7 @@ padByte theChar;
 /**
  * Clear colors in colormap we've allocated
  */
-screen_clear_colors()
+void screen_clear_colors()
 {
 	unsigned long pixels[16];
 	int i;
@@ -517,7 +523,7 @@ padRGB* platocolor;
 /**
  * screen_foreground - Called to set foreground color.
  */
-screen_foreground(theColor)
+void screen_foreground(theColor)
 padRGB* theColor;
 {
 	foregroundColor.red=theColor->red;
@@ -530,7 +536,7 @@ padRGB* theColor;
 /**
  * screen_background - Called to set foreground color.
  */
-screen_background(theColor)
+void screen_background(theColor)
 padRGB* theColor;
 {
 	backgroundColor.red=theColor->red;
@@ -543,7 +549,7 @@ padRGB* theColor;
 /**
  * Recursive flood fill
  */
-_screen_paint(x,y,oldpixel,newpixel)
+void _screen_paint(x,y,oldpixel,newpixel)
 unsigned long oldpixel,newpixel;
 {
 	unsigned long p = XGetPixel(image,x,y);
@@ -561,7 +567,7 @@ unsigned long oldpixel,newpixel;
 	_screen_paint(x,y+1,oldpixel,newpixel);
 }
 
-screen_paint(Coord)
+void screen_paint(Coord)
 padPt* Coord;
 {
 	int x = Coord->x;
@@ -579,7 +585,7 @@ padPt* Coord;
  * screen_done()
  * Close down TGI
  */
-screen_done()
+void screen_done()
 {
 	screen_clear_colors();
 	XFreeGC(display,gc);

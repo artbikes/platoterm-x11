@@ -52,4 +52,14 @@ extern	padBool		TTY,
 extern	DispMode	CurMode;
 
 void Touch();
+void ShowPLATO();
+void Key();
+void Echo();
+void Ext();
+void InitTTY();
+void InitPLATOx();
+void terminal_set_plato();
+void SetMode();
+void SetFast();
+
 #endif

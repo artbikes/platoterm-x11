@@ -1,36 +1,19 @@
-X11_INCLUDE=/usr/openwin/include
-X11_LIBS=/usr/X11/lib
-X11_LIBS=/usr/openwin/lib
+## -- just for compiling, C needs the path to the .h files
+X11_INC_PATH  = -I/opt/X11/include/
+
+## -- library
+X11_LIBS_PATH = -L/opt/X11/lib/
+X11_LIBS      = -lX11
+
 OBJ=main.o touch.o io.o keyboard.o screen.o terminal.o protocol.o
 
 all: platoterm
 
-touch.o: touch.c
-	cc -g -I$(X11_INCLUDE) -o $@ -c touch.c
-
-io.o: io.c
-	cc -g -o $@ -c io.c
-
-keyboard.o: keyboard.c
-	cc -g -I$(X11_INCLUDE) -o $@ -c keyboard.c
-
-screen.o: screen.c
-	cc -g -I$(X11_INCLUDE) -o $@ -c screen.c
-
-terminal.o: terminal.c
-	cc -g -o $@ -c terminal.c
-
-protocol.o: protocol.c
-	cc -g -o $@ -c protocol.c
-
-main.o: main.c
-	cc -g -o $@ -c main.c
-
 platoterm: $(OBJ)
-	cc -g -L$(X11_LIBS) -o $@ $(OBJ) -lX11 
+	gcc  $(OBJ) -ansi -Wall $(X11_INC_PATH) $(X11_LIBS_PATH) $(X11_LIBS) -o platoterm
 
 clean:
 	rm -rf platoterm $(OBJ)
 
 run:
-	./platoterm IRATA.ONLINE 8005
+	./platoterm cyberserv.org 8005
