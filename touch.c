@@ -13,16 +13,16 @@
 /**
  * touch_init() - Set up touch screen
  */
-touch_init()
+void touch_init()
 {
 }
 
 /**
  * touch_main() - Main loop for touch screen
  */
-touch_main(x,y)
+void touch_main(x,y)
 int x,y;
-{  
+{
 	padPt pt;
 
 	pt.x = x;
@@ -34,7 +34,7 @@ int x,y;
 /**
  * touch_allow - Set whether touchpanel is active or not.
  */
-touch_allow(allow)
+void touch_allow(allow)
 padBool allow;
 {
 }
@@ -42,21 +42,21 @@ padBool allow;
 /**
  * handle_mouse - Process mouse events and turn into scaled touch events
  */
-handle_mouse()
+void handle_mouse()
 {
 }
 
 /**
  * touch_hide() - hide the mouse cursor
  */
-touch_hide()
+void touch_hide()
 {
 }
 
 /**
  * touch_done() - Stop the mouse driver
  */
-touch_done()
+void touch_done()
 {
 }
 

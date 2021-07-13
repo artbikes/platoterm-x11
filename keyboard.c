@@ -9,7 +9,7 @@
 
 unsigned char ch;
 
-keyboard_out(platoKey)
+void keyboard_out(platoKey)
 unsigned char platoKey;
 {
   if (platoKey==0xff)
@@ -25,7 +25,7 @@ unsigned char platoKey;
   return;
 }
 
-keyboard_main(ks,control_pressed,shift_pressed)
+void keyboard_main(ks,control_pressed,shift_pressed)
 KeySym ks;
 unsigned char control_pressed, shift_pressed;
 {
@@ -533,7 +533,7 @@ unsigned char control_pressed, shift_pressed;
 		keyboard_out(k);
 }
 
-keyboard_out_tty(ch)
+void keyboard_out_tty(ch)
 char ch;
 {
 }

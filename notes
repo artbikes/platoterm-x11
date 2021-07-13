@@ -1,0 +1,7 @@
+➜  platoterm-x11 git:(plan9) ✗ make run
+./platoterm IRATA.ONLINE 8005
+X Error of failed request:  BadMatch (invalid parameter attributes)
+  Major opcode of failed request:  73 (X_GetImage)
+  Serial number of failed request:  54
+  Current serial number in output stream:  54
+make: *** [run] Error 1

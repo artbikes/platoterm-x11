@@ -11,5 +11,11 @@
 #define TOUCH_H
 
 #include "protocol.h"
+void touch_allow();
+void touch_init();
+void touch_main();
+void touch_done();
+void handle_mouse();
+
 
 #endif /* TOUCH_H */

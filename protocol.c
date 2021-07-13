@@ -13,6 +13,10 @@
 /* Copyright (c) 1990 by Steve Peltz */
 
 #include "protocol.h"
+#include "io.h"
+#include "terminal.h"
+#include "screen.h"
+#include "touch.h"
 
 #define	BSIZE	64
 #define TRUE 1
@@ -100,13 +104,13 @@ padBool FastText;               /* Indicate to main program if text optimization
  *----------------------------------------------*/
 
 
-InitPAD ()
+void InitPAD ()
 {
   InitTTY ();
 }
 
 
-InitTTY ()
+void InitTTY ()
 {
   charCount = 0;
   EscFlag = FALSE;
@@ -117,14 +121,14 @@ InitTTY ()
 }
 
 
-InitPLATO ()
+void InitPLATO ()
 {
   if (TTY)
     InitPLATOx ();
 }
 
 
-InitPLATOx ()
+void InitPLATOx ()
 {
   charCount = 0;
   EscFlag = FALSE;
@@ -158,7 +162,7 @@ InitPLATOx ()
  *----------------------------------------------*/
 
 
-Key (theKey)
+void Key (theKey)
 padWord theKey;	
 {
   if (theKey >> 7)
@@ -191,7 +195,7 @@ padWord theKey;
  *	Send a touch key (01yyyyxxxx).		*
  *----------------------------------------------*/
 
-Touch(where)
+void Touch(where)
 padPt *where;
 {
   io_send_byte(0x1b);
@@ -212,7 +216,7 @@ padPt *where;
  *----------------------------------------------*/
 
 
-Ext (theKey)
+void Ext (theKey)
 padWord theKey;
 {
   Key (0x200 | (theKey & 0xFF));
@@ -226,7 +230,7 @@ padWord theKey;
  *----------------------------------------------*/
 
 
-Echo (theKey)
+void Echo (theKey)
 padWord theKey;
 {
   Key (0x080 | theKey);
@@ -241,7 +245,7 @@ padWord theKey;
  *----------------------------------------------*/
 
 
-SetCommand (theMode, theType)
+void SetCommand (theMode, theType)
 Mode theMode;
 DataType theType;
 {
@@ -251,7 +255,7 @@ DataType theType;
 }
 
 
-SetMode (theMode, theType)
+void SetMode (theMode, theType)
 Mode theMode;
 DataType theType;
 {
@@ -270,7 +274,7 @@ DataType theType;
  *----------------------------------------------*/
 
 
-FixXY (DX, DY)
+void FixXY (DX, DY)
 short DX,DY;
 {
   if (ModeBold)
@@ -310,19 +314,19 @@ short DX,DY;
  *----------------------------------------------*/
 
 
-Superx ()
+void Superx ()
 {
   FixXY (0, 5);
 }
 
 
-Subx ()
+void Subx ()
 {
   FixXY (0, -5);
 }
 
 
-Marginx ()
+void Marginx ()
 {
   if (Rotate)
     Margin = CurCoord.y;
@@ -331,31 +335,31 @@ Marginx ()
 }
 
 
-BSx ()
+void BSx ()
 {
   FixXY (-8, 0);
 }
 
 
-HTx ()
+void HTx ()
 {
   FixXY (8, 0);
 }
 
 
-LFx ()
+void LFx ()
 {
   FixXY (0, -16);
 }
 
 
-VTx ()
+void VTx ()
 {
   FixXY (0, 16);
 }
 
 
-FFx ()
+void FFx ()
 {
   CurCoord.y = 0;
   CurCoord.x = 0;
@@ -363,7 +367,7 @@ FFx ()
 }
 
 
-CRx ()
+void CRx ()
 {
   if (Rotate)
     CurCoord.y = Margin;
@@ -380,7 +384,7 @@ CRx ()
  *----------------------------------------------*/
 
 
-LoadCoordx (SetCoord)
+void LoadCoordx (SetCoord)
 padPt *SetCoord;
 {
   SetCoord->x = (HiX << 5) + LowX;
@@ -395,8 +399,7 @@ padPt *SetCoord;
  *	current location.			*
  *----------------------------------------------*/
 
-
-Blockx ()
+void Blockx ()
 {
   padPt NewCoord;
 
@@ -416,14 +419,14 @@ Blockx ()
 }
 
 
-Pointx ()
+void Pointx ()
 {
   LoadCoordx (&CurCoord);
   screen_dot_draw (&CurCoord);
 }
 
 
-Linex ()
+void Linex ()
 {
   padPt OldCoord;
 
@@ -442,7 +445,7 @@ Linex ()
 }
 
 
-Alphax ()
+void Alphax ()
 {
   if (charCount == 0)
     charCoord = CurCoord;
@@ -463,7 +466,7 @@ Alphax ()
  *----------------------------------------------*/
 
 
-LoadEchox ()
+void LoadEchox ()
 {
   theWord &= 0x7f;
   switch (theWord)
@@ -514,14 +517,14 @@ LoadEchox ()
 }
 
 
-LoadAddrx ()
+void LoadAddrx ()
 {
   MemAddr = theWord;
   CharCnt = 0;
 }
 
 
-LoadCharx ()
+void LoadCharx ()
 {
   Char[CharCnt] = theWord;
   if (CharCnt < 7)
@@ -535,14 +538,14 @@ LoadCharx ()
 }
 
 
-LoadMemx ()
+void LoadMemx ()
 {
   terminal_mem_load (MemAddr, theWord);
   MemAddr += 2;
 }
 
 
-SSFx ()
+void SSFx ()
 {
   padByte device;
 
@@ -567,14 +570,14 @@ SSFx ()
 }
 
 
-Externalx ()
+void Externalx ()
 {
   terminal_ext_out ((theWord >> 8) & 0xFF);
   terminal_ext_out (theWord & 0xFF);
 }
 
 
-GoMode ()
+void GoMode ()
 {
   switch (CMode)
     {
@@ -636,7 +639,7 @@ GoMode ()
 }
 
 
-GoWord ()
+void GoWord ()
 {
   switch (Phase)
     {
@@ -656,7 +659,7 @@ GoWord ()
 }
 
 
-GoCoord ()
+void GoCoord ()
 {
   unsigned short CoordType, CoordValue;
 
@@ -688,7 +691,7 @@ GoCoord ()
 }
 
 
-GoColor ()
+void GoColor ()
 {
   switch (Phase)
     {
@@ -714,7 +717,7 @@ GoColor ()
 }
 
 
-GoPaint ()
+void GoPaint ()
 {
   if (Phase == 0)
     Phase = 1;
@@ -724,7 +727,7 @@ GoPaint ()
 }
 
 
-DataChar ()
+void DataChar ()
 {
   switch (CType)
     {
@@ -747,7 +750,7 @@ DataChar ()
 }
 
 
-ShowPLATO (buff, count)
+void ShowPLATO (buff, count)
 padByte *buff;
 unsigned short count;
 {
@@ -952,7 +955,7 @@ unsigned short count;
  * SetFast()
  * Toggle fast text output if mode = write or erase, and no rotate or bold
  */
- SetFast()
+void SetFast()
 {
   FastText = (((CurMode == ModeWrite) || (CurMode == ModeErase)) && ((Rotate == padF) && (ModeBold == padF))); 
 }

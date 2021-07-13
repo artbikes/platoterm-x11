@@ -12,5 +12,10 @@
 
 #define XON  0x11
 #define XOFF 0x13
-
+void io_init();
+void io_done();
+void io_main();
+void io_replay();
+void io_replay_clear();
+void io_send_byte();
 #endif /* IO_H */

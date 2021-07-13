@@ -11,6 +11,7 @@
 
 #include <string.h>
 #include "terminal.h"
+#include "screen.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -54,7 +55,7 @@ static unsigned char curr_word;
  * terminal_init()
  * Initialize terminal state
  */
-terminal_init()
+void terminal_init()
 {
   terminal_set_tty();
 }
@@ -63,7 +64,7 @@ terminal_init()
  * terminal_initial_position()
  * Set terminal initial position after splash screen.
  */
-terminal_initial_position()
+void terminal_initial_position()
 {
   TTYLoc.x=0;
   TTYLoc.y=495; 
@@ -72,7 +73,7 @@ terminal_initial_position()
 /**
  * terminal_set_tty() - Switch to TTY mode
  */
-terminal_set_tty()
+void terminal_set_tty()
 {
   if (already_started)
     screen_clear();
@@ -91,7 +92,7 @@ terminal_set_tty()
 /**
  * terminal_set_plato() - Switch to PLATO mode
  */
-terminal_set_plato()
+void terminal_set_plato()
 {
   TTY=FALSE;
   screen_clear();
@@ -160,7 +161,7 @@ padWord addr;
  * terminal_mem_load - Write a byte to non-character memory.
  * not needed for our terminal, but must be decoded.
  */
-terminal_mem_load(addr, value)
+void terminal_mem_load(addr, value)
 padWord addr, value;
 {
   /* Not Implemented */
@@ -169,17 +170,17 @@ padWord addr, value;
 /**
  * Mode5, 6, and 7 are basically stubbed.
  */
-terminal_mode_5(value)
+void terminal_mode_5(value)
 padWord value;
 { 
 }
 
-terminal_mode_6(value)
+void terminal_mode_6(value)
 padWord value;
 { 
 }
 
-terminal_mode_7(value)
+void terminal_mode_7(value)
 padWord value;
 { 
 }
@@ -187,7 +188,7 @@ padWord value;
 /**
  * terminal_ext_allow - External Input allowed. Not implemented.
  */
-terminal_ext_allow(allow)
+void terminal_ext_allow(allow)
 padBool allow;
 {
   /* Not Implemented */
@@ -197,7 +198,7 @@ padBool allow;
  * terminal_set_ext_in - Set which device to get input from.
  * Not implemented
  */
-terminal_set_ext_in(device)
+void terminal_set_ext_in(device)
 padWord device;
 {
 }
@@ -206,7 +207,7 @@ padWord device;
  * terminal_set_ext_out - Set which device to send external data to.
  * Not implemented
  */
-terminal_set_ext_out(device)
+void terminal_set_ext_out(device)
 padWord device;
 {
 }
@@ -224,7 +225,7 @@ padByte terminal_ext_in()
  * terminal_ext_out - Send an external output to selected device
  * Not implemented.
  */
-terminal_ext_out(value)
+void terminal_ext_out(value)
 padByte value;
 {
 }
@@ -233,7 +234,7 @@ padByte value;
  * terminal_char_load - Store a character into the user definable
  * character set.
  */
-terminal_char_load(charnum, theChar)
+void terminal_char_load(charnum, theChar)
 padWord charnum;
 charData theChar;
 {
